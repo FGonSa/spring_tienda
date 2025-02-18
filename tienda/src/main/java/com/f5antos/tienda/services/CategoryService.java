@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.f5antos.tienda.model.Category;
+import com.f5antos.tienda.payload.CategoryDTO;
+import com.f5antos.tienda.payload.CategoryResponse;
 
 public interface CategoryService {
-	List<Category> getAllCategories();
+	CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 	String deleteCategory(Long categoryID);
-	Category findCategory(Long categoryID);
-	String createCategory(Category category);
+	CategoryDTO findCategory(Long categoryID);
+	CategoryDTO createCategory(CategoryDTO categoryDTO);
 	String updateCategory(Long categoryID, Category newCategory);
 }

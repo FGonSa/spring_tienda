@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.f5antos.tienda.config.AppConstants;
 import com.f5antos.tienda.model.Category;
+import com.f5antos.tienda.payload.CategoryDTO;
+import com.f5antos.tienda.payload.CategoryResponse;
 import com.f5antos.tienda.services.CategoryService;
 
 import jakarta.validation.Valid;
@@ -26,18 +30,23 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@GetMapping("/public/categories")
-	public ResponseEntity<List<Category>> getAllCategories(){
-        return ResponseEntity.ok(categoryService.getAllCategories());
+	public ResponseEntity<CategoryResponse> getAllCategories(
+			@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER_DEFAULT) Integer pageNumber, 
+			@RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
+			@RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_CATEGORIES_BY) String sortBy,
+			@RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR) String sortOrder){
+		CategoryResponse categoryResponse = categoryService.getAllCategories(pageNumber, pageSize, sortBy, sortOrder);
+        return ResponseEntity.ok(categoryResponse);
 	}
 	
 	@GetMapping("/public/categories/{categoryID}")
-	public ResponseEntity<Category> getCategory(@PathVariable Long categoryID) {
+	public ResponseEntity<CategoryDTO> getCategory(@PathVariable Long categoryID) {
         return ResponseEntity.ok(categoryService.findCategory(categoryID));
     }
 	
 	@PostMapping("/public/categories")
-    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.createCategory(category));
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+        return ResponseEntity.ok(categoryService.createCategory(categoryDTO));
     }
 	
 	@DeleteMapping("/admin/categories/{categoryID}")
