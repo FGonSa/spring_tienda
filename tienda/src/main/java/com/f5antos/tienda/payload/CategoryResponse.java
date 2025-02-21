@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryResponse {
 	private List<CategoryDTO> content;
+	
+	//Paginación
 	private Integer pageNumber;
 	private Integer pageSize;
 	private Long totalElements;

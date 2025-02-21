@@ -60,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO findCategory(Long categoryID) {
     	
     	Category category = categoryRepository.findById(categoryID)
-    			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with ID: " + categoryID + " NOT found."));;
+    			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category with ID: " + categoryID + " NOT found."));
     	
     	CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
     	
